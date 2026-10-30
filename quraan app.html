@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مصحف النور | القرآن الكريم</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#f5f3eb;
+  --card:#fffefa;
+  --green:#145b46;
+  --green2:#1e795c;
+  --gold:#c39a52;
+  --text:#263d33;
+  --muted:#89958d;
+  --border:#e8e5d9;
+}
+body.dark {
+  --bg:#101e19;
+  --card:#1b2d25;
+  --green:#76c6a3;
+  --green2:#4b9e7b;
+  --gold:#d6b36f;
+  --text:#e6eee8;
+  --muted:#a5b5aa;
+  --border:#31473c;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:'Cairo',sans-serif;transition:.25s;
+}
+header{
+  background:var(--green);color:white;padding:22px 6%;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:15px;
+}
+.brand{font-size:25px;font-weight:800}
+.brand small{display:block;font-size:12px;font-weight:400;opacity:.8}
+.header-actions{display:flex;gap:9px}
+button,select,input{
+  font-family:inherit;
+}
+.action{
+  border:1px solid #ffffff55;background:#ffffff18;color:white;
+  border-radius:12px;padding:10px 14px;cursor:pointer;
+}
+.container{max-width:1150px;margin:auto;padding:25px 18px}
+.hero{
+  background:linear-gradient(120deg,#145b46,#27785d);
+  color:white;border-radius:22px;padding:35px 20px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero h1{font-family:'Amiri',serif;font-size:38px;margin:0}
+.hero p{opacity:.85}
+.hero .ornament{font-size:24px;color:#e7c783}
+.tools{
+  display:flex;gap:10px;flex-wrap:wrap;margin:22px 0;
+}
+.tools input,.tools select{
+  background:var(--card);color:var(--text);
+  border:1px solid var(--border);border-radius:12px;
+  padding:12px;outline:none;
+}
+.tools input{flex:1;min-width:180px}
+.tools select{min-width:150px}
+.layout{
+  display:grid;grid-template-columns:260px 1fr;gap:20px;
+}
+.panel,.reader{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:18px;padding:20px;
+}
+.panel h3{margin-top:0;color:var(--green)}
+.surah-list{
+  max-height:550px;overflow:auto;
+}
+.surah-item{
+  padding:11px;border-bottom:1px solid var(--border);
+  cursor:pointer;display:flex;justify-content:space-between;
+  align-items:center;border-radius:9px;
+}
+.surah-item:hover,.surah-item.active{
+  background:var(--green);color:white;
+}
+.surah-item small{opacity:.7}
+.reader-head{text-align:center;border-bottom:1px solid var(--border);padding-bottom:18px}
+.reader-head h2{
+  font-family:'Amiri',serif;font-size:32px;color:var(--green);
+  margin:0;
+}
+.reader-head p{color:var(--muted);font-size:13px}
+.bismillah{
+  text-align:center;font-family:'Amiri',serif;
+  font-size:29px;color:var(--gold);margin:25px 0;
+}
+.verses{
+  font-family:'Amiri',serif;font-size:29px;
+  line-height:2.35;text-align:justify;padding:10px;
+}
+.ayah{
+  cursor:pointer;border-radius:8px;
+  transition:.2s;padding:2px;
+}
+.ayah:hover{background:rgba(195,154,82,.15)}
+.ayah.selected{background:rgba(195,154,82,.25)}
+.ayah-number{
+  color:var(--gold);font-size:18px;
+  white-space:nowrap;margin:0 5px;
+}
+.reader-controls{
+  display:flex;gap:8px;justify-content:center;
+  flex-wrap:wrap;margin:18px 0;
+}
+.control{
+  background:var(--bg);color:var(--text);
+  border:1px solid var(--border);padding:10px 15px;
+  border-radius:11px;cursor:pointer;
+}
+.control:hover{border-color:var(--gold)}
+.status{text-align:center;color:var(--muted);padding:12px}
+audio{width:100%;margin-top:15px}
+footer{text-align:center;color:var(--muted);padding:25px;font-size:13px}
+footer a{color:var(--green)}
+@media(max-width:750px){
+  .layout{grid-template-columns:1fr}
+  .surah-list{max-height:220px}
+  .verses{font-size:25px;line-height:2.2}
+  .hero h1{font-size:30px}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="brand">
+    ☪ مصحف النور
+    <small>رفيقك في تلاوة القرآن الكريم</small>
+  </div>
+  <div class="header-actions">
+    <button class="action" onclick="toggleTheme()">☾ المظهر</button>
+    <button class="action" onclick="changeFont(2)">A+</button>
+    <button class="action" onclick="changeFont(-2)">A-</button>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <div class="ornament">۞ ۞ ۞</div>
+    <h1>وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا</h1>
+    <p>اقرأ، تدبر، واستمع إلى آيات الله</p>
+    <div class="ornament">۞ ۞ ۞</div>
+  </section>
+
+  <div class="tools">
+    <input id="search" placeholder="ابحث عن آية داخل السورة الحالية..." />
+    <select id="surahSelect" aria-label="اختر السورة">
+      <option value="">جاري تحميل السور...</option>
+    </select>
+  </div>
+
+  <div class="layout">
+    <aside class="panel">
+      <h3>📖 فهرس السور</h3>
+      <input id="surahFilter" placeholder="ابحث عن سورة..."
+        style="width:100%;padding:10px;border:1px solid var(--border);
+        border-radius:10px;background:var(--bg);color:var(--text)">
+      <div class="surah-list" id="surahList">
+        <p class="status">جاري تحميل الفهرس...</p>
+      </div>
+      <hr style="border-color:var(--border);margin:18px 0">
+      <h3>⭐ آخر قراءة</h3>
+      <button class="control" style="width:100%" onclick="resumeReading()">
+        استكمال القراءة
+      </button>
+    </aside>
+
+    <section class="reader">
+      <div class="reader-head">
+        <h2 id="surahName">القرآن الكريم</h2>
+        <p id="surahInfo">اختر سورة للبدء</p>
+      </div>
+
+      <div id="bismillah" class="bismillah">
+        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+      </div>
+
+      <div class="reader-controls">
+        <button class="control" onclick="previousSurah()">السورة السابقة ←</button>
+        <button class="control" onclick="nextSurah()">السورة التالية ←</button>
+        <button class="control" onclick="saveBookmark()">⭐ حفظ الموضع</button>
+      </div>
+
+      <div id="status" class="status">اختر سورة من الفهرس</div>
+      <article id="verses" class="verses"></article>
+
+      <div class="reader-controls">
+        <button class="control" onclick="playSurah()">▶ استماع للسورة</button>
+        <button class="control" onclick="stopAudio()">■ إيقاف</button>
+      </div>
+      <audio id="audio" controls preload="none"></audio>
+
+      <p class="status" id="audioInfo"></p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  نص القرآن الكريم من <a href="https://alquran.cloud/" target="_blank">Al Quran Cloud</a>
+  · للاستماع إلى التلاوة
+  <br>
+  واجهة قراءة شخصية لمصحف القرآن الكريم
+</footer>
+
+<script>
+const API = "https://api.alquran.cloud/v1";
+let surahs = [];
+let currentSurah = 1;
+let currentAyahs = [];
+let fontSize = 29;
+let selectedAyah = null;
+
+const $ = id => document.getElementById(id);
+
+async function getJSON(url) {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("تعذر الاتصال بالمصدر");
+  const json = await response.json();
+  if (json.code !== 200) throw new Error("تعذر تحميل البيانات");
+  return json.data;
+}
+
+async function initialize() {
+  try {
+    surahs = await getJSON(`${API}/surah`);
+    renderSurahs(surahs);
+    $("status").textContent = "اختر سورة للبدء بالقراءة";
+    const saved = localStorage.getItem("quranSurah");
+    await loadSurah(saved ? Number(saved) : 1);
+  } catch (error) {
+    $("status").textContent =
+      "تعذر تحميل القرآن. تأكد من اتصال الإنترنت ثم أعد تحميل الصفحة.";
+    console.error(error);
+  }
+}
+
+function renderSurahs(items) {
+  $("surahList").innerHTML = "";
+  $("surahSelect").innerHTML = "";
+
+  items.forEach(s => {
+    const option = document.createElement("option");
+    option.value = s.number;
+    option.textContent = `${s.number}. ${s.name}`;
+    $("surahSelect").appendChild(option);
+
+    const item = document.createElement("div");
+    item.className = "surah-item" +
+      (s.number === currentSurah ? " active" : "");
+    const name = document.createElement("span");
+    name.textContent = s.name;
+    const number = document.createElement("small");
+    number.textContent = `${s.number} · ${s.numberOfAyahs} آية`;
+    item.append(name, number);
+    item.onclick = () => loadSurah(s.number);
+    $("surahList").appendChild(item);
+  });
+  $("surahSelect").value = currentSurah;
+}
+
+async function loadSurah(number) {
+  if (number < 1 || number > 114) return;
+
+  currentSurah = number;
+  selectedAyah = null;
+  $("surahName").textContent = "جاري التحميل...";
+  $("verses").innerHTML = "";
+  $("status").textContent = "جاري تحميل الآيات...";
+
+  try {
+    const data = await getJSON(
+      `${API}/surah/${number}/quran-uthmani`
+    );
+    currentAyahs = data.ayahs;
+
+    $("surahName").textContent = data.name;
+    $("surahInfo").textContent =
+      `${data.revelationType === "Meccan" ? "مكية" : "مدنية"} · ${data.numberOfAyahs} آية`;
+
+    $("bismillah").style.display =
+      number === 1 || number === 9 ? "none" : "block";
+
+    renderAyahs(currentAyahs);
+    $("status").textContent = `السورة رقم ${number} من 114`;
+    $("surahSelect").value = number;
+    localStorage.setItem("quranSurah", number);
+    renderSurahs(surahs);
+    $("audio").pause();
+    $("audio").removeAttribute("src");
+    $("audioInfo").textContent = "";
+  } catch (error) {
+    $("status").textContent =
+      "حدث خطأ أثناء تحميل السورة. حاول مرة أخرى.";
+    console.error(error);
+  }
+}
+
+function renderAyahs(ayahs) {
+  $("verses").innerHTML = "";
+  ayahs.forEach(ayah => {
+    const span = document.createElement("span");
+    span.className = "ayah";
+    span.textContent = ayah.text;
+
+    const marker = document.createElement("span");
+    marker.className = "ayah-number";
+    marker.textContent = `۞ ${ayah.numberInSurah} ۞`;
+
+    span.onclick = () => {
+      selectedAyah = ayah.numberInSurah;
+      document.querySelectorAll(".ayah").forEach(el =>
+        el.classList.remove("selected")
+      );
+      span.classList.add("selected");
+      localStorage.setItem("quranAyah", selectedAyah);
+      localStorage.setItem("quranSurah", currentSurah);
+    };
+
+    $("verses").append(span, marker, document.createTextNode(" "));
+  });
+  $("verses").style.fontSize = fontSize + "px";
+}
+
+function changeFont(amount) {
+  fontSize = Math.min(48, Math.max(20, fontSize + amount));
+  $("verses").style.fontSize = fontSize + "px";
+}
+
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem(
+    "quranDark",
+    document.body.classList.contains("dark")
+  );
+}
+
+function nextSurah() {
+  if (currentSurah < 114) loadSurah(currentSurah + 1);
+}
+
+function previousSurah() {
+  if (currentSurah > 1) loadSurah(currentSurah - 1);
+}
+
+function saveBookmark() {
+  if (!selectedAyah) {
+    alert("اضغط على الآية التي تريد حفظها أولاً");
+    return;
+  }
+  localStorage.setItem("quranSurah", currentSurah);
+  localStorage.setItem("quranAyah", selectedAyah);
+  alert("تم حفظ موضع القراءة ⭐");
+}
+
+async function resumeReading() {
+  const surah = Number(localStorage.getItem("quranSurah") || 1);
+  const ayah = Number(localStorage.getItem("quranAyah") || 0);
+  await loadSurah(surah);
+  if (ayah) {
+    const spans = document.querySelectorAll(".ayah");
+    const target = spans[ayah - 1];
+    if (target) {
+      target.classList.add("selected");
+      target.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+  }
+}
+
+function playSurah() {
+  const audio = $("audio");
+  audio.src =
+    `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${currentSurah}.mp3`;
+  $("audioInfo").textContent = "تلاوة الشيخ مشاري العفاسي";
+  audio.play().catch(() => {
+    $("audioInfo").textContent =
+      "اضغط زر التشغيل في مشغل الصوت لبدء التلاوة.";
+  });
+}
+
+function stopAudio() {
+  $("audio").pause();
+  $("audio").currentTime = 0;
+}
+
+$("surahSelect").addEventListener("change", e => {
+  if (e.target.value) loadSurah(Number(e.target.value));
+});
+
+$("surahFilter").addEventListener("input", e => {
+  const query = e.target.value.trim();
+  renderSurahs(surahs.filter(s => s.name.includes(query)));
+});
+
+$("search").addEventListener("input", e => {
+  const query = e.target.value.trim();
+  if (!query) {
+    renderAyahs(currentAyahs);
+    return;
+  }
+  renderAyahs(currentAyahs.filter(a => a.text.includes(query)));
+});
+
+if (localStorage.getItem("quranDark") === "true") {
+  document.body.classList.add("dark");
+}
+
+initialize();
+</script>
+</body>
+</html>
